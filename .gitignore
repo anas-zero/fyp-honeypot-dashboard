@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Streamlit
+.streamlit/
+
+# Local data (do NOT commit)
+data/
+
+# Keys
+*.pem
+*.ppk
