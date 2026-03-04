@@ -13,3 +13,6 @@ data/
 # Keys
 *.pem
 *.ppk
+
+# Sync script (contains server IP)
+sync_from_aws.ps1
