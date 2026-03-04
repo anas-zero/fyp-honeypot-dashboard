@@ -1,3 +1,5 @@
 streamlit
 pandas
 matplotlib
+pydeck
+geoip2

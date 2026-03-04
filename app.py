@@ -270,6 +270,53 @@ with tab_overview:
 
     st.divider()
 
+    # ── Anomaly score distribution ──────────────
+    st.subheader("Anomaly score distribution (Isolation Forest)")
+
+    if baseline_df is None:
+        missing_file_error("baseline_results.csv")
+    else:
+        scores = baseline_df["anomaly_score_iforest"].dropna()
+
+        fig_dist, ax_dist = plt.subplots(figsize=(12, 3))
+        ax_dist.hist(
+            scores,
+            bins=40,
+            color="#4C72B0",
+            edgecolor="white",
+            linewidth=0.5,
+            alpha=0.85,
+        )
+
+        # Add a vertical line at the anomaly threshold
+        threshold = scores[baseline_df["anomaly_flag_iforest"] == 1].min() if (baseline_df["anomaly_flag_iforest"] == 1).any() else None
+        if threshold is not None:
+            ax_dist.axvline(
+                x=threshold,
+                color="#D64545",
+                linestyle="--",
+                linewidth=1.5,
+                label=f"Anomaly threshold ({threshold:.3f})",
+            )
+            ax_dist.legend(fontsize=9)
+
+        ax_dist.set_xlabel("Anomaly score (higher = more anomalous)")
+        ax_dist.set_ylabel("Session count")
+        ax_dist.set_title("Distribution of Isolation Forest anomaly scores")
+        plt.tight_layout()
+        st.pyplot(fig_dist)
+        plt.close(fig_dist)
+
+        # Quick context line
+        flagged = int(baseline_df["anomaly_flag_iforest"].sum())
+        median_score = scores.median()
+        st.caption(
+            f"{flagged} sessions flagged as anomalies out of {len(baseline_df)} total. "
+            f"Median score: {median_score:.4f}."
+        )
+
+    st.divider()
+
     # ── Daily markdown report ───────────────────
     st.subheader("Daily threat report")
 
