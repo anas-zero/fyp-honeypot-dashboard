@@ -241,28 +241,35 @@ with tab_overview:
     if sessions_raw is None:
         missing_file_error("sessions_raw.jsonl")
     else:
-        # Convert epoch timestamps → UTC datetimes, then floor to the hour
+        # Convert epoch timestamps → UTC datetimes
         utc_times = pd.Series(
             [epoch_to_utc(s["start_ts"]) for s in sessions_raw],
             name="start_utc",
         )
-        hourly = (
-            utc_times
-            .dt.floor("h")
-            .value_counts()
-            .sort_index()
-        )
+
+        # Auto-switch: daily if data spans more than 2 days, hourly otherwise
+        span_days = (utc_times.max() - utc_times.min()).days
+        if span_days > 2:
+            binned = utc_times.dt.floor("D").value_counts().sort_index()
+            labels = [t.strftime("%b %d") for t in binned.index]
+            x_label = "Date (UTC)"
+            title = "SSH session volume per day"
+        else:
+            binned = utc_times.dt.floor("h").value_counts().sort_index()
+            labels = [t.strftime("%Y-%m-%d %H:%M") for t in binned.index]
+            x_label = "Hour (UTC)"
+            title = "SSH session volume per hour"
 
         fig, ax = plt.subplots(figsize=(12, 3))
         ax.bar(
-            [t.strftime("%Y-%m-%d %H:%M") for t in hourly.index],
-            hourly.values,
+            labels,
+            binned.values,
             color="#4C72B0",
             width=0.6,
         )
-        ax.set_xlabel("Hour (UTC)")
+        ax.set_xlabel(x_label)
         ax.set_ylabel("Session count")
-        ax.set_title("SSH session volume per hour")
+        ax.set_title(title)
         plt.xticks(rotation=45, ha="right", fontsize=8)
         plt.tight_layout()
         st.pyplot(fig)
@@ -531,7 +538,7 @@ with tab_map:
     else:
         # Aggregate sessions per country
         country_stats = (
-            geo_df[geo_df["country_code"] != "--"]
+            geo_df[(geo_df["country_code"] != "--") & (geo_df["lat"] != 0.0)]
             .groupby(["country", "country_code", "lat", "lon"])
             .agg(
                 sessions=("session_id", "count"),
