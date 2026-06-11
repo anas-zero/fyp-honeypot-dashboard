@@ -1,0 +1,73 @@
+/* ===================
+   Hero Banner & Headers
+   ====================== */
+.main-header {
+    background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+    padding: 1.5rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 1.5rem;
+    color: white;
+}
+.main-header h1 { color: white !important; margin: 0; font-size: 1.8rem; }
+.main-header p { color: #a8d8ea; margin: 0.3rem 0 0 0; font-size: 0.95rem; }
+
+.hero-banner {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    border-radius: 16px; padding: 2rem 2.5rem; margin-bottom: 1.5rem;
+    color: white; position: relative; overflow: hidden;
+}
+.hero-banner::before {
+    content: ''; position: absolute; top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    background: radial-gradient(circle at 30% 50%, rgba(229,57,53,0.08) 0%, transparent 50%),
+                radial-gradient(circle at 70% 50%, rgba(33,150,243,0.08) 0%, transparent 50%);
+    animation: hero-glow 8s ease-in-out infinite alternate;
+}
+@keyframes hero-glow { 0% { transform: translate(0,0); } 100% { transform: translate(-5%,5%); } }
+.hero-number { font-size: 3.5rem; font-weight: 800; color: #e8f4f8; line-height: 1.1;
+               position: relative; text-shadow: 0 0 40px rgba(33,150,243,0.3); }
+.hero-label { font-size: 1.1rem; color: #90caf9; margin-top: 0.3rem; position: relative; }
+.hero-stat { display: inline-block; background: rgba(255,255,255,0.08); border-radius: 8px;
+             padding: 0.5rem 1rem; margin: 0.3rem 0.5rem 0.3rem 0; font-size: 0.95rem;
+             color: #e0e0e0; position: relative; backdrop-filter: blur(4px); }
+.hero-stat strong { color: #ffffff; font-size: 1.15rem; }
+
+/* ============
+   Metric Cards 
+   ============= */
+[data-testid="stMetric"] {
+    background: rgba(255, 255, 255, 0.03) !important;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px; padding: 14px 18px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+[data-testid="stMetric"]:hover { 
+    transform: translateY(-2px); 
+    box-shadow: 0 6px 12px rgba(0,0,0,0.4); 
+}
+[data-testid="stMetricValue"] { font-size: 1.6rem !important; font-weight: 700 !important; }
+
+/* ===================
+   Action Cards & Tabs
+   ================== */
+.action-card { background: rgba(255, 193, 7, 0.1); border-left: 4px solid #ffc107; padding: 1rem 1.2rem; border-radius: 0 10px 10px 0; margin: 0.5rem 0; }
+.action-card-critical { background: rgba(220, 53, 69, 0.1); border-left: 4px solid #dc3545; padding: 1rem 1.2rem; border-radius: 0 10px 10px 0; margin: 0.5rem 0; }
+.action-card-info { background: rgba(23, 162, 184, 0.1); border-left: 4px solid #17a2b8; padding: 1rem 1.2rem; border-radius: 0 10px 10px 0; margin: 0.5rem 0; }
+
+/* ===================
+   Tabs & Navigation
+   ================== */
+.stTabs [data-baseweb="tab-panel"] { padding-top: 1rem; }
+.stTabs [data-baseweb="tab-list"] { gap: 8px; }
+
+[data-testid="stTabs"] button[data-baseweb="tab"] {
+    border-right: 1px solid rgba(255, 255, 255, 0.15); 
+    border-radius: 0;
+    padding-right: 24px !important;
+    padding-left: 24px !important;
+}
+
+[data-testid="stTabs"] button[data-baseweb="tab"]:last-child {
+    border-right: none;
+}

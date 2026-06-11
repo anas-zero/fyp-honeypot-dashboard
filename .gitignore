@@ -1,0 +1,21 @@
+# Security
+.env
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Streamlit
+.streamlit/
+
+# Data files (kept local only)
+data/
+
+# Keys
+*.pem
+*.ppk
+
+# Sync script (has server IP)
+sync_from_aws.ps1
